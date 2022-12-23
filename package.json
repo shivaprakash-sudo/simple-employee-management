@@ -1,12 +1,12 @@
 {
-  "name": "nodejs-sample-project",
+  "name": "simple-employee-management",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "devStart": "nodemon server.js"
+    "devStart": "nodemon -L server.js"
   },
   "keywords": [],
   "author": "Shiva Prakash Pendem",
@@ -14,8 +14,5 @@
   "dependencies": {
     "express": "^4.18.2",
     "mongoose": "^6.8.1"
-  },
-  "devDependencies": {
-    "dotenv": "^16.0.3"
   }
 }

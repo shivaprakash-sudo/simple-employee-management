@@ -1,0 +1,13 @@
+# GET http://localhost:3000/employees
+
+GET http://localhost:3000/employees/leads
+
+# POST http://localhost:3000/add-employee
+# Content-Type: "application/json"
+
+# {
+#             "firstName": "Sarah",
+#             "lastName": "Smith",
+#             "email": "sarah.smith@company.com",
+#             "position": "Employee"
+#         }
