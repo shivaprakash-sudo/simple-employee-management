@@ -89,6 +89,9 @@ const employees = [
     email: "nicole.davis@company.com",
     position: "Employee",
   },
+];
+
+const leads = [
   {
     firstName: "Samantha",
     lastName: "Parker",
@@ -107,18 +110,6 @@ const employees = [
     email: "laura.johnson@company.com",
     position: "Lead",
   },
-  {
-    firstName: "Christopher",
-    lastName: "Smith",
-    email: "christopher.smith@company.com",
-    position: "Lead",
-  },
-  {
-    firstName: "Jessica",
-    lastName: "Williams",
-    email: "jessica.williams@company.com",
-    position: "Lead",
-  },
 ];
 
-export default employees;
+export { employees, leads };

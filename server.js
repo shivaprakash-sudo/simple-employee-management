@@ -29,11 +29,14 @@ app.get("/", (req, res) => {
   res.send("Working!");
 });
 
-app.post("/add-employee", (req, res) => {
-  console.log(req);
-  //   const employee = new Employee(req.body);
-  //   employee.save();
-  //   console.log(employee);
+app.post("/add-employee", async (req, res) => {
+  try {
+    const employee = new Employee(req.body);
+    await employee.save();
+    console.log(employee);
+  } catch (err) {
+    console.log("Something's wrong, I can feel it!", err);
+  }
 });
 
 app.get("/employees", (req, res) => {
