@@ -1,8 +1,14 @@
+// dependency
 import mongoose from "mongoose";
+
+// models
 import Employee from "../models/Employee.js";
 import LeadEmployee from "../models/LeadEmployee.js";
+
+// sample db
 import { employees, leads } from "./db.js";
 
+// mongoose connection
 mongoose
   .connect("mongodb://127.0.0.1:27017/employee-management", {
     useNewUrlParser: true,
@@ -16,12 +22,14 @@ mongoose
     console.log(err);
   });
 
+// create employees and leads, and then update them accordingly
 createEntries(LeadEmployee, leads)
   .then(createEntries(Employee, employees))
   .then(updateRecords());
 // .then(() => mongoose.connection.close());
 
-// helpers
+// helper functions
+
 async function createEntries(collection, localCollection) {
   await collection.deleteMany({});
   try {

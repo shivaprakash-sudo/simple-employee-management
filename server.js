@@ -37,6 +37,8 @@ app.get("/", (req, res) => {
   res.send("Working!");
 });
 
+// route handlers
+
 app.post("/add-employee", addEmployee);
 
 app.get("/api/employees", getAllEmployees);
@@ -47,7 +49,8 @@ app.get("/api/leads/:id", getLeadById);
 
 app.post("/api/leads", getLeadByName);
 
-// error handling
+// error handlers
+
 app.all("*", (req, res, next) => {
   next(new ExpressError("Page Not Found", 404));
 });
