@@ -4,7 +4,7 @@ import LeadEmployee from "../models/LeadEmployee.js";
 import { employees, leads } from "./db.js";
 
 mongoose
-  .connect("mongodb://localhost/employee-management", {
+  .connect("mongodb://127.0.0.1:27017/employee-management", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -16,61 +16,48 @@ mongoose
     console.log(err);
   });
 
-const sampleDB = async () => {
-  await Employee.deleteMany({});
-  await LeadEmployee.deleteMany({});
+createEntries(LeadEmployee, leads)
+  .then(createEntries(Employee, employees))
+  .then(updateRecords());
+// .then(() => mongoose.connection.close());
+
+// helpers
+async function createEntries(collection, localCollection) {
+  await collection.deleteMany({});
   try {
-    employees.forEach(async (employee) => {
-      const newEmployee = new Employee({
-        name: `${employee.firstName} ${employee.lastName}`,
-        email: employee.email,
+    localCollection.forEach(async (item) => {
+      const newEntry = new collection({
+        name: `${item.firstName} ${item.lastName}`,
+        email: item.email,
       });
-      await newEmployee.save();
-    });
-    leads.forEach(async (lead) => {
-      const newLead = new LeadEmployee({
-        name: `${lead.firstName} ${lead.lastName}`,
-        email: lead.email,
-      });
-      await newLead.save();
+      await newEntry.save();
     });
   } catch (err) {
     console.log(err);
   }
-};
+}
 
-sampleDB()
-  .then(async () => {
-    const mongoEmployees = await Employee.find({});
-    console.log("MongoEMP: ", mongoEmployees);
-    // const mongoLeads = await LeadEmployee.find({});
-    mongoEmployees.forEach(async (employee) => {
-      const randomLead = getRandom(LeadEmployee);
-      console.log("RandomLead: ", randomLead);
-      const emp = Employee.findByIdAndUpdate(employee.id, {
-        lead: randomLead,
-      });
-      let teamMembers = randomLead.teamMembers;
-      if (!teamMembers[employee]) {
-        teamMembers.push(employee);
+async function updateRecords() {
+  const empsLength = await Employee.estimatedDocumentCount();
+  let mongoEmployees = await Employee.find({});
+  let mongoLeads = await LeadEmployee.find({});
+  for (let i = 0; i < empsLength; i++) {
+    const name = mongoEmployees[i].name;
+    const randomLead =
+      mongoLeads[Math.floor(Math.random() * mongoLeads.length)];
+    const emp = await Employee.findOneAndUpdate(
+      { name },
+      {
+        lead: randomLead._id,
       }
-      await emp.save();
-      await randomLead.save();
-      console.log(emp);
-      console.log(randomLead);
-    });
-  })
-  .then(() => mongoose.connection.close());
-
-function getRandom(collection) {
-  collection.countDocuments().exec((err, count) => {
-    let random = Math.floor(Math.random() * count);
-    collection
-      .findOne()
-      .skip(random)
-      .exec((err, result) => {
-        console.log(result);
-        return result;
-      });
-  });
+    );
+    const updatedLead = await LeadEmployee.findOneAndUpdate(
+      { name: randomLead.name },
+      {
+        $push: { teamMembers: emp._id },
+      }
+    );
+    await emp.save();
+    await updatedLead.save();
+  }
 }
