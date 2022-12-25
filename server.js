@@ -17,7 +17,7 @@ const app = express();
 const PORT = 5500;
 const dbURL = "mongodb://127.0.0.1:27017/employee-management";
 
-// connect to db first and then the server
+// connect to database first and then the server
 mongoose
   .connect(dbURL, {
     useNewUrlParser: true,

@@ -20,6 +20,7 @@ export const getLeadByName = catchAsync(async (req, res) => {
   let query = LeadEmployee.find({}).populate("teamMembers");
   const leadName = req.query.name;
   if (leadName !== "" && leadName !== null) {
+    // filter the query list using case insensitive leadName
     query = query.regex("name", new RegExp(leadName, "i"));
   } else {
     res.send("Uh Oh! Something's wrong.");

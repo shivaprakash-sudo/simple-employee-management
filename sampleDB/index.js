@@ -8,7 +8,7 @@ import LeadEmployee from "../models/LeadEmployee.js";
 // sample db
 import { employees, leads } from "./db.js";
 
-// mongoose connection
+// connection to mongodb
 mongoose
   .connect("mongodb://127.0.0.1:27017/employee-management", {
     useNewUrlParser: true,
@@ -31,8 +31,10 @@ createEntries(LeadEmployee, leads)
 // helper functions
 
 async function createEntries(collection, localCollection) {
+  // empty the previous data
   await collection.deleteMany({});
   try {
+    // from all local data, create new entries
     localCollection.forEach(async (item) => {
       const newEntry = new collection({
         name: `${item.firstName} ${item.lastName}`,
@@ -49,10 +51,13 @@ async function updateRecords() {
   const empsLength = await Employee.estimatedDocumentCount();
   let mongoEmployees = await Employee.find({});
   let mongoLeads = await LeadEmployee.find({});
+  // for all employees and leads, update them accordingly
   for (let i = 0; i < empsLength; i++) {
     const email = mongoEmployees[i].email;
+    // get a random lead
     const randomLead =
       mongoLeads[Math.floor(Math.random() * mongoLeads.length)];
+    // update employee and lead accordingly
     const emp = await Employee.findOneAndUpdate(
       { email },
       {
