@@ -2,6 +2,9 @@
 import express from "express";
 import mongoose from "mongoose";
 
+// util
+import ExpressError from "./utils/ExpresError.js";
+
 // controllers
 import { addEmployee, getAllEmployees } from "./controllers/employees.js";
 import {

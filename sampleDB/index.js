@@ -25,8 +25,8 @@ mongoose
 // create employees and leads, and then update them accordingly
 createEntries(LeadEmployee, leads)
   .then(createEntries(Employee, employees))
-  .then(updateRecords());
-// .then(() => mongoose.connection.close());
+  .then(await updateRecords())
+  .then(() => mongoose.connection.close());
 
 // helper functions
 
@@ -50,17 +50,17 @@ async function updateRecords() {
   let mongoEmployees = await Employee.find({});
   let mongoLeads = await LeadEmployee.find({});
   for (let i = 0; i < empsLength; i++) {
-    const name = mongoEmployees[i].name;
+    const email = mongoEmployees[i].email;
     const randomLead =
       mongoLeads[Math.floor(Math.random() * mongoLeads.length)];
     const emp = await Employee.findOneAndUpdate(
-      { name },
+      { email },
       {
         lead: randomLead._id,
       }
     );
     const updatedLead = await LeadEmployee.findOneAndUpdate(
-      { name: randomLead.name },
+      { email: randomLead.email },
       {
         $push: { teamMembers: emp._id },
       }

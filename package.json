@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "devStart": "nodemon server.js"
+    "devStart": "nodemon server.js",
+    "sampleDB": "node sampleDB/index.js"
   },
   "keywords": [],
   "author": "Shiva Prakash Pendem",
