@@ -1,18 +1,18 @@
 // dependencies
 import express from "express";
 import mongoose from "mongoose";
-import bodyParser from "body-parser";
 
 // controllers
-import { addEmployee, getAllEmployees } from "./controllers/employees";
-import { getAllLeads, getLeadById, getLeadByName } from "./controllers/leads";
+import { addEmployee, getAllEmployees } from "./controllers/employees.js";
+import {
+  getAllLeads,
+  getLeadById,
+  getLeadByName,
+} from "./controllers/leads.js";
 
 const app = express();
 const PORT = 5500;
 const dbURL = "mongodb://127.0.0.1:27017/employee-management";
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
 // connect to db first and then the server
 mongoose
@@ -58,5 +58,8 @@ app.use((err, req, res, next) => {
     err.message = "Something's wrong, I can feel it";
   }
   console.log(JSON.stringify(err));
-  res.status(statusCode).render("Error: ", { err });
+  res.status(statusCode).json({
+    message: err.message,
+    error: err,
+  });
 });

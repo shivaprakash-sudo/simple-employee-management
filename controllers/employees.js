@@ -1,6 +1,6 @@
 // models
-import Employee from "./models/Employee.js";
-import LeadEmployee from "./models/LeadEmployee.js";
+import Employee from "../models/Employee.js";
+import LeadEmployee from "../models/LeadEmployee.js";
 
 // util
 import catchAsync from "../utils/catchAsync.js";

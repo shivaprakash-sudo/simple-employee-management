@@ -1,9 +1,8 @@
 // models
-import Employee from "./models/Employee.js";
-import LeadEmployee from "./models/LeadEmployee.js";
+import LeadEmployee from "../models/LeadEmployee.js";
 
 // util
-import catchAsync from "../utils/catchAsync";
+import catchAsync from "../utils/catchAsync.js";
 
 export const getAllLeads = catchAsync(async (req, res) => {
   const leads = await LeadEmployee.find({});
